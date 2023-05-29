@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "concurrently": "^8.0.1",
+    "react-redux": "^8.0.5"
+  },
+  "name": "rent-a-movie",
+  "version": "1.0.0",
+  "description": "movie renting website",
+  "main": "index.js",
+  "proxy": "http://localhost:8000",
+  "scripts": {
+    "frontend": "npm start --prefix frontend",
+    "server": "python backend/manage.py runserver",
+    "dev": "concurrently \"npm run frontend\" \"npm run server\""
+  },
+  "author": "rafi",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.41.0",
+    "eslint-plugin-react": "^7.32.2"
+  }
+}
