@@ -4,7 +4,7 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime,timedelta
-from django.utils.timezone import now
+
 
 
 
@@ -27,9 +27,10 @@ class Movie(models.Model):
 
 class Rental(models.Model):
     movie_id = models.IntegerField()
+    movie_title=models.CharField(max_length=200)
     duration = models.IntegerField()
-    starting_date = models.DateTimeField(default=now)
-    ending_date = models.DateTimeField(default=now()+timedelta(days=7))
+    starting_date = models.DateTimeField(default=datetime.now())
+    ending_date = models.DateTimeField(default=datetime.now()+timedelta(days=7))
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     
 

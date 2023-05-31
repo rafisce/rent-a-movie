@@ -9,10 +9,10 @@ const MoviesCard = (props) => {
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
 
-  const rent = async (e) => {
-    e.preventDefault();
+  const handleRent = () => {
     if (userInfo) {
-      dispatch(createRental(6, 7, userInfo.id));
+      console.log(movie.id);
+      dispatch(createRental(movie.id, 7, userInfo.id, movie.title));
     }
   };
 
@@ -28,7 +28,7 @@ const MoviesCard = (props) => {
           <div className="movie-description">
             <p>{movie.description}</p>
           </div>
-          <button className="btn" onClick={rent}>
+          <button className="btn" onClick={handleRent}>
             RENT
           </button>
         </div>

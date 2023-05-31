@@ -4,6 +4,7 @@ import {
   RENTAL_CREATE_SUCCESS,
   RENTAL_LIST_FAIL,
   RENTAL_LIST_REQUEST,
+  RENTAL_LIST_RESET,
   RENTAL_LIST_SUCCESS,
 } from "../constants/rentalConstants";
 
@@ -12,9 +13,11 @@ export const rentalListReducer = (state = { rentals: [] }, action) => {
     case RENTAL_LIST_REQUEST:
       return { loading: true };
     case RENTAL_LIST_SUCCESS:
-      return { loading: false, rentals: action.payload };
+      return { loading: true, rentals: action.payload };
     case RENTAL_LIST_FAIL:
       return { loading: false, error: action.payload };
+    case RENTAL_LIST_RESET:
+      return {};
     default:
       return state;
   }
@@ -25,7 +28,7 @@ export const rentalCreateReducer = (state = {}, action) => {
     case RENTAL_CREATE_REQUEST:
       return { loading: true };
     case RENTAL_CREATE_SUCCESS:
-      return { loading: false, rental: action.payload };
+      return { loading: true, rental: action.payload };
     case RENTAL_CREATE_FAIL:
       return { loading: false, error: action.payload };
     default:
