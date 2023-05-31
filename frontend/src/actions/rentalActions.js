@@ -9,10 +9,10 @@ import {
 } from "../constants/rentalConstants";
 
 export const createRental =
-  (movieId, duration, userId) => async (dispatch, getState) => {
+  (movieId, duration, userId, movieTitle) => async (dispatch, getState) => {
     dispatch({
       type: RENTAL_CREATE_REQUEST,
-      payload: { movieId, duration, userId },
+      payload: { movieId, duration, userId, movieTitle },
     });
 
     try {
@@ -21,7 +21,7 @@ export const createRental =
       } = getState();
       const { data } = await axios.post(
         "http://localhost:8000/api/rentals",
-        { movie_id: movieId, duration, user: userId },
+        { movie_id: movieId, duration, user: userId, movie_title: movieTitle },
         {
           headers: {
             Authorization: `Bearer ${userInfo.access}`,
@@ -46,11 +46,12 @@ export const listRentals = (user_id) => async (dispatch, getState) => {
   } = getState();
 
   try {
-    const { data } = axios.get("http://localhost:8000/api/rentals", {
+    const { data } = await axios.get("http://localhost:8000/api/rentals", {
       headers: {
         Authorization: `Bearer ${userInfo.access}`,
       },
     });
+
     dispatch({ type: RENTAL_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

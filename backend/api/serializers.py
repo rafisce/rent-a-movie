@@ -29,7 +29,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
-        fields = ('username','email')
+        fields = ('id','username','email')
 
     
    
@@ -39,7 +39,7 @@ class UserSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ('title','description','rating','release_date','popularity','img')
+        fields = '__all__'
 
 
 class RentalSerializer(serializers.ModelSerializer):

@@ -2,101 +2,95 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signot } from "../actions/userActions";
+import { RENTAL_LIST_RESET } from "../constants/rentalConstants";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = (props) => {
-  const { onQuery } = props;
+  const { onQuery, onDialog } = props;
   const dispatch = useDispatch();
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
+  const navigate = useNavigate();
 
-  const logoutHandler = async (e) => {
-    e.preventDefault();
+  const logoutHandler = () => {
     dispatch(signot());
+    dispatch({ type: RENTAL_LIST_RESET });
   };
-  useEffect(() => {}, [userInfo]);
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/");
+    }
+  }, [navigate, userInfo]);
 
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-light fixed-top"
-      id="navb"
-      dir="rtl"
-    >
-      <div className="dropdown show">
-        {userInfo ? (
-          <a
-            className="btn  dropdown-toggle"
-            href="#"
-            role="button"
-            id="dropdownMenuLink"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            {userInfo.username}
-          </a>
-        ) : (
-          <a
-            className="dropdown-item btn btn-default btn-rounded mb-4"
-            href="#"
-            data-toggle="modal"
-            data-target="#modalLoginForm"
-          >
-            התחבר
-          </a>
-        )}
+    <nav className="navbar navbar-expand-lg fixed-top">
+      <form className="form-inline my-2 my-lg-0">
+        <input
+          className="form-control mr-sm-2"
+          type="search"
+          placeholder="..חיפוש"
+          aria-label="Search"
+          onChange={(e) => onQuery(e.target.value)}
+        />
+      </form>
 
-        <div
-          className="dropdown-menu"
-          aria-labelledby="dropdownMenuLink"
-          dir="ltr"
-        >
-          {userInfo ? (
-            <div>
-              <a class="dropdown-item" href="#">
+      <ul className="navbar-nav mr-auto">
+        {userInfo ? (
+          <li className="nav-item dropdown">
+            <a
+              className="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {userInfo.username}
+            </a>
+            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+              <Link className="dropdown-item" to="/rentals">
                 השכרות שלי
-              </a>
-              <a class="dropdown-item" href="#" onClick={logoutHandler}>
+              </Link>
+              <div className="dropdown-divider"></div>
+              <a className="dropdown-item" href="#" onClick={logoutHandler}>
                 התנתק
               </a>
             </div>
-          ) : null}
-        </div>
-      </div>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav">
-          <li className="nav-item active">
-            <a className="nav-link" href="#">
-              Home <span className="sr-only">(current)</span>
-            </a>
           </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Features
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Pricing
-            </a>
-          </li>
-        </ul>
+        ) : (
+          <button className="btn" onClick={onDialog}>
+            התחבר
+          </button>
+        )}
 
-        <input
-          placeholder="חיפוש.."
-          onChange={(e) => onQuery(e.target.value)}
-        />
-      </div>
+        {/* <li className="nav-item dropdown">
+            <a
+              className="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Dropdown
+            </a>
+            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a className="dropdown-item" href="#">
+                השכרות שלי
+              </a>
+              <div className="dropdown-divider"></div>
+              <a className="dropdown-item" href="#">
+                התנתק
+              </a>
+            </div>
+          </li> */}
+      </ul>
+
+      <Link className="navbar-brand" to="/">
+        Movie.com
+      </Link>
     </nav>
   );
 };

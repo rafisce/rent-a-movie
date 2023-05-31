@@ -19,13 +19,19 @@ authenticator = JWTAuthentication()
 class RegistrationView(APIView):
 
     def post(self,request):
+        
         serializer = RegistrationSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({
-                'message':'user created successfully',
-                'user':serializer.data
-            },status=status.HTTP_201_CREATED)
+            user = serializer.data
+            user = User.objects.get(username=user['username'])
+            token = RefreshToken.for_user(user)
+            user_serializer = UserSerializer(instance=user)
+            user_auth = user_serializer.data
+            user_auth.update({  'refresh': str(token),
+        'access': str(token.access_token)})
+            
+            return Response(user_auth,status=status.HTTP_201_CREATED)
         else:
             return Response({'errors':serializer.errors},status=status.HTTP_400_BAD_REQUEST)
         
@@ -52,11 +58,11 @@ class RentalsView(APIView):
     def get(self,request):
         response = authenticator.authenticate(request)
         if response is not None:
-            user , token = response
+            user,token = response
             if Rental.objects.filter(user = token.payload['user_id']).exists():
                 rentals = Rental.objects.filter(user = token.payload['user_id'])
                 rentals_serializer= RentalSerializer(rentals,many=True)
-                return Response({'rentals':rentals_serializer.data})
+                return Response(rentals_serializer.data,status=status.HTTP_200_OK)
             return Response({'message':'not found'},status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({'message':"no token is provided in the header or the header is missing"})
@@ -66,7 +72,6 @@ class RentalsView(APIView):
 
         response = authenticator.authenticate(request)
         if response is not None:
-            print(request.data)
             serializer = RentalSerializer(data=request.data)
             
             if serializer.is_valid(raise_exception=True):
@@ -99,6 +104,7 @@ class MoviesView(APIView):
             serializer = MovieSerializer(data=request.data,many=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
         else:
             return Response({'message':"no token is provided in the header or the header is missing"},status=status.HTTP_401_UNAUTHORIZED)
        
