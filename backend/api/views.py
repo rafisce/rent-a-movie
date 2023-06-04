@@ -15,7 +15,25 @@ import json
 authenticator = JWTAuthentication()
 
 
+class UsersView(APIView):
+    def get(self,request):
 
+        response = authenticator.authenticate(request)
+        if response is not None:
+            user,token = response
+            if (user.is_superuser):
+
+                users = User.objects.all()
+                user_serializer = UserSerializer(users,many=True)
+                return Response(user_serializer.data,status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'message':'bad credentials'},status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+        pass
 class RegistrationView(APIView):
 
     def post(self,request):
@@ -54,6 +72,7 @@ class LoginView(APIView):
         return Response({'message':'bad credentials'},status=status.HTTP_401_UNAUTHORIZED)
 
 
+
 class RentalsView(APIView):
     def get(self,request):
         response = authenticator.authenticate(request)
@@ -69,7 +88,6 @@ class RentalsView(APIView):
         
     
     def post(self,request):
-
         response = authenticator.authenticate(request)
         if response is not None:
             serializer = RentalSerializer(data=request.data)
@@ -81,6 +99,24 @@ class RentalsView(APIView):
         else:
             return Response({'message':"no token is provided in the header or the header is missing"})
         
+class AdminRentalsView(APIView):
+    def get(self,request,id):
+        response = authenticator.authenticate(request)
+        if response is not None:
+            user,token = response
+            if (user.is_superuser):
+                if Rental.objects.filter(user = id).exists():
+                    rentals = Rental.objects.filter(user = id)
+                    rentals_serializer= RentalSerializer(rentals,many=True)
+                    return Response(rentals_serializer.data,status=status.HTTP_200_OK)
+                else:
+                    return Response({'message':'not found'},status=status.HTTP_404_NOT_FOUND)
+            else:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)  
+        else:
+            return Response({'message':"no token is provided in the header or the header is missing"})
+
+        
 class MoviesView(APIView): 
 
     def get(self,request):
@@ -88,17 +124,7 @@ class MoviesView(APIView):
         movies = MovieSerializer(queryset, many=True) 
         return Response(movies.data,status=status.HTTP_200_OK) 
      
-    def post(self,request):
-
-        
-
-        # serializer = MovieSerializer(data=request.data,many=True)
-        # if serializer.is_valid(raise_exception=True):
-        #     serializer.save()
-        #     return Response(status=status.HTTP_201_CREATED)
-        # else:
-        #     return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+    def post(self,request):        
         response = authenticator.authenticate(request)
         if response is not True:
             serializer = MovieSerializer(data=request.data,many=True)
@@ -108,28 +134,13 @@ class MoviesView(APIView):
         else:
             return Response({'message':"no token is provided in the header or the header is missing"},status=status.HTTP_401_UNAUTHORIZED)
        
-    
-        
-
-# class SomeView(APIView):
-
-#     def get(self,request):
-#         print(request.data)
-        
-#         response = authenticator.authenticate(request)
-#         if response is not None:
-#     # unpacking
-#             user , token = response
-#             print(user + "jkj")
-#             print("this is decoded token claims", token.payload)
-#             return Response({'token':token.payload})
-#         else:
-#             return Response({'message':"no token is provided in the header or the header is missing"})
-
-        
-#     def post(self,request):
-
+class MovieView(APIView):
+    def get(self,request,id):
+        movie = Movie.objects.get(id=id)
+        if movie:
+            serializer = MovieSerializer(instance=movie)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+            
        
-#         return Response({'a':1,'b':2},status=status.HTTP_403_FORBIDDEN)
-    
-

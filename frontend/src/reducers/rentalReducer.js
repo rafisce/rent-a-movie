@@ -13,7 +13,7 @@ export const rentalListReducer = (state = { rentals: [] }, action) => {
     case RENTAL_LIST_REQUEST:
       return { loading: true };
     case RENTAL_LIST_SUCCESS:
-      return { loading: true, rentals: action.payload };
+      return { loading: false, rentals: action.payload };
     case RENTAL_LIST_FAIL:
       return { loading: false, error: action.payload };
     case RENTAL_LIST_RESET:
@@ -28,7 +28,7 @@ export const rentalCreateReducer = (state = {}, action) => {
     case RENTAL_CREATE_REQUEST:
       return { loading: true };
     case RENTAL_CREATE_SUCCESS:
-      return { loading: true, rental: action.payload };
+      return { loading: false, rental: action.payload };
     case RENTAL_CREATE_FAIL:
       return { loading: false, error: action.payload };
     default:

@@ -15,82 +15,107 @@ const Navbar = (props) => {
   const logoutHandler = () => {
     dispatch(signot());
     dispatch({ type: RENTAL_LIST_RESET });
+    handleManagerMenu()
   };
+
+  const handleUserMenu = () => {
+    if (
+      userInfo &&
+      userInfo.is_superuser &&
+      document.querySelector(".manager").classList.contains("active")
+    ) {
+      document.querySelector(".manager");
+      document.querySelector(".manager").classList.toggle("active");
+    }
+    document.querySelector(".user").classList.toggle("active");
+  };
+
+  const handleManagerMenu = () => {
+    if (document.querySelector(".user").classList.contains("active")) {
+      document.querySelector(".user").classList.toggle("active");
+    }
+    document.querySelector(".manager").classList.toggle("active");
+  };
+
   useEffect(() => {
     if (!userInfo) {
       navigate("/");
     }
   }, [navigate, userInfo]);
 
+  const toggle = () => {
+    const menu = document.querySelector(".nb-menu");
+    const nav = document.querySelector(".nb");
+    nav.classList.toggle("active");
+    menu.classList.toggle("active");
+  };
   return (
-    <nav className="navbar navbar-expand-lg fixed-top">
-      <form className="form-inline my-2 my-lg-0">
-        <input
-          className="form-control mr-sm-2"
-          type="search"
-          placeholder="..חיפוש"
-          aria-label="Search"
-          onChange={(e) => onQuery(e.target.value)}
-        />
-      </form>
-
-      <ul className="navbar-nav mr-auto">
-        {userInfo ? (
-          <li className="nav-item dropdown">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              {userInfo.username}
-            </a>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <Link className="dropdown-item" to="/rentals">
-                השכרות שלי
-              </Link>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#" onClick={logoutHandler}>
-                התנתק
-              </a>
-            </div>
-          </li>
-        ) : (
-          <button className="btn" onClick={onDialog}>
-            התחבר
-          </button>
-        )}
-
-        {/* <li className="nav-item dropdown">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Dropdown
-            </a>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a className="dropdown-item" href="#">
-                השכרות שלי
-              </a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">
-                התנתק
-              </a>
-            </div>
-          </li> */}
-      </ul>
-
-      <Link className="navbar-brand" to="/">
+    <nav className="nb">
+      <Link to="/" className="nb-brand">
         Movie.com
       </Link>
+      <div className="nb-menu">
+        <ul className="nb-links">
+          {userInfo ? (
+            <li>
+              <a href="#" className="dropdown-toggle" onClick={handleUserMenu}>
+                {userInfo.username}
+              </a>
+
+              <div
+                className="user-menu"
+                style={{ width: "fit-content", height: "fit-content" }}
+              >
+                <ul className="user">
+                  <li>
+                    <Link onClick={handleUserMenu} to="/rentals">השכרות שלי</Link>
+                  </li>
+                  <li>
+                    <Link onClick={logoutHandler}>התנתק</Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          ) : (
+            <li>
+              <Link className="nb-dropdown" onClick={onDialog}>
+                התחבר
+              </Link>
+            </li>
+          )}
+          {userInfo && userInfo.is_superuser ? (
+            <li>
+              <Link className="dropdown-toggle" onClick={handleManagerMenu}>
+                מנהל
+              </Link>
+              <div
+                className="manager-menu"
+                style={{ width: "fit-content", height: "fit-content" }}
+              >
+                <ul className="manager">
+                  <li>
+                    <Link onClick={handleManagerMenu} to="/users">משתמשים</Link>
+                  </li>
+                  <li>
+                    <Link onClick={handleManagerMenu}>סרטים</Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          ) : null}
+        </ul>
+        <input
+          className="nb-search"
+          placeholder="חיפוש.."
+          onChange={(e) => onQuery(e.target.value)}
+        />
+      </div>
+
+      <div className="hamburger" onClick={toggle}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </nav>
   );
 };

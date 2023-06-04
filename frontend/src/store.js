@@ -1,9 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
+  userListReducer,
   userRegisterReducer,
   userSigninReducer,
 } from "./reducers/userReducers";
-import { movieListReducer } from "./reducers/movieReducers";
+import {  movieGetReducer, movieListReducer } from "./reducers/movieReducers";
 import {
   rentalCreateReducer,
   rentalListReducer,
@@ -23,6 +24,8 @@ const reducer = combineReducers({
   movieList: movieListReducer,
   rentalList: rentalListReducer,
   rentalCreate: rentalCreateReducer,
+  userList: userListReducer,
+  movieGet:movieGetReducer
 });
 
 const store = configureStore({

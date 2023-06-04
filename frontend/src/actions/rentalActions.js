@@ -63,3 +63,28 @@ export const listRentals = (user_id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const listRentalsAdmin = (user_id) => async (dispatch, getState) => {
+  dispatch({ type: RENTAL_LIST_REQUEST, payload: { user_id } });
+  const {
+    userSignin: { userInfo },
+  } = getState();
+
+  try {
+    const { data } = await axios.get(`http://localhost:8000/api/rentals/${user_id}`, {
+      headers: {
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    });
+
+    dispatch({ type: RENTAL_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: RENTAL_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

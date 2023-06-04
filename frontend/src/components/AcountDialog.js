@@ -8,7 +8,6 @@ import RegisterForm from "./RegisterForm";
 const AcountDialog = (props) => {
   const { onClose, open } = props;
   const [value, setValue] = useState("0");
-
   const handleClose = () => {
     onClose(false);
   };
@@ -35,24 +34,24 @@ const AcountDialog = (props) => {
               }}
               aria-label="basic tabs example"
             >
-              <Tab
-                label="הירשם"
-                value="1"
-                sx={{ width: "50%", fontSize: "1.6rem" }}
-              />
+             
               <Tab
                 label="התחבר"
                 value="0"
+                sx={{ width: "50%", fontSize: "1.6rem" }}
+              /> <Tab
+                label="הירשם"
+                value="1"
                 sx={{ width: "50%", fontSize: "1.6rem" }}
               />
             </TabList>
           </Box>
           <Box sx={{ height: "100%" }}>
-            <TabPanel value="0" index={0}>
-              <SigninForm onSuccess={handleClose} />
-            </TabPanel>
             <TabPanel value="1" index={1}>
               <RegisterForm onSuccess={handleClose} />
+            </TabPanel>{" "}
+            <TabPanel value="0" index={0}>
+              <SigninForm onSuccess={handleClose} />
             </TabPanel>
           </Box>
         </Box>
