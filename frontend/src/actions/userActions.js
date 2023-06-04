@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+  USER_LIST_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
@@ -53,7 +56,31 @@ export const register = (username, email, password) => async (dispatch) => {
   }
 };
 
-export const signot = () => async (dispatch) => {
+export const listUsers = () => async (dispatch, getState) => {
+  dispatch({ type: USER_LIST_REQUEST });
+
+  try {
+    const {
+      userSignin: { userInfo },
+    } = getState();
+    const { data } = await axios.get("http://localhost:8000/api/users", {
+      headers: {
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    });
+    dispatch({ type: USER_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const signot = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_SIGNOUT });
 };

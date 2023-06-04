@@ -1,26 +1,14 @@
-import React from "react";
 import Rating from "./Rating";
-import { useDispatch, useSelector } from "react-redux";
-import { createRental } from "../actions/rentalActions";
+import { Link } from "react-router-dom";
 
 const MoviesCard = (props) => {
   const { movie } = props;
-  const dispatch = useDispatch();
-  const userSignin = useSelector((state) => state.userSignin);
-  const { userInfo } = userSignin;
-
-  const handleRent = () => {
-    if (userInfo) {
-      console.log(movie.id);
-      dispatch(createRental(movie.id, 7, userInfo.id, movie.title));
-    }
-  };
-
   return (
-    <div className="col col-12 col-md-4 col-lg-3">
+    <div className="col col-12 col-md-4 col-lg-3" dir="ltr">
       <div className="card">
         <img className="img-fluid" src={movie.img} alt={movie.img} />
-        <div className="overlay center">
+
+        <div className={"overlay center"}>
           <Rating rating={movie.rating} />
           <div className="movie-title">
             <h3>{movie.title}</h3>
@@ -28,9 +16,7 @@ const MoviesCard = (props) => {
           <div className="movie-description">
             <p>{movie.description}</p>
           </div>
-          <button className="btn" onClick={handleRent}>
-            RENT
-          </button>
+          <Link className="btn" to={`rent/${movie.id}`}>השכר</Link>
         </div>
       </div>
     </div>
