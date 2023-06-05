@@ -39,7 +39,9 @@ export const getMovie = (movieId) => async (dispatch) => {
   });
 
   try {
-    const { data } = await axios.get(`http://localhost:8000/api/movie/${movieId}`);
+    const { data } = await axios.get(
+      `http://localhost:8000/api/movie/${movieId}`
+    );
 
     dispatch({
       type: MOVIE_GET_SUCCESS,
@@ -53,7 +55,7 @@ export const getMovie = (movieId) => async (dispatch) => {
   }
 };
 
-export const updateMovie = (movieId,movie) => async (dispatch,getState) => {
+export const updateMovie = (movieId, movie) => async (dispatch, getState) => {
   dispatch({
     type: MOVIE_UPDATE_REQUEST,
   });
@@ -124,7 +126,8 @@ export const createMovie = (movie) => async (dispatch, getState) => {
       userSignin: { userInfo },
     } = getState();
     const { data } = await axios.post(
-      `http://localhost:8000/api/movie/0`,{},
+      `http://localhost:8000/api/movie/0`,
+      {},
       {
         headers: {
           Authorization: `Bearer ${userInfo.access}`,
@@ -148,46 +151,43 @@ export const uploadMovies = async (access) => {
   //bulk movies upload from tmdb api
   // access: bearer access token
 
-    for (let i = 1; i < 21; i++) {
-      await axios
-        .get(
-          `https://api.themoviedb.org/3/movie/top_rated?adult=false?language=en-US&page=${i}`,
-          {
-            headers: {
-              accept: "application/json",
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ZjI2OTM5OTFlNThjMjg3YWI4OWJmYjY2ZjczODE2NyIsInN1YiI6IjY0MTUyNjE4ZTc0MTQ2MDBkODhlM2VlMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.d5CGJt5fJEANOkg3GYRRKtRok2ew3eG_6Yk4A45EIl8",
-            },
-          }
-        )
-        .then(async (res) => {
-          const results = res.data.results;
-          const updated = results.map(
-            ({
-              title,
-              popularity,
-              vote_average: rating,
-              release_date,
-              overview: description,
-              poster_path: img,
-            }) => ({
-              title,
-              popularity,
-              rating: rating / 2,
-              release_date,
-              description,
-              img: "https://image.tmdb.org/t/p/original" + img,
-              active:true
-            })
-          );
+  for (let i = 1; i < 21; i++) {
+    await axios
+      .get(
+        `https://api.themoviedb.org/3/movie/top_rated?adult=false?language=en-US&page=${i}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: process.env.TMDB,
+          },
+        }
+      )
+      .then(async (res) => {
+        const results = res.data.results;
+        const updated = results.map(
+          ({
+            title,
+            popularity,
+            vote_average: rating,
+            release_date,
+            overview: description,
+            poster_path: img,
+          }) => ({
+            title,
+            popularity,
+            rating: rating / 2,
+            release_date,
+            description,
+            img: "https://image.tmdb.org/t/p/original" + img,
+            active: true,
+          })
+        );
 
-         
-          await axios.post("http://localhost:8000/api/movies", updated, {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
-          });
+        await axios.post("http://localhost:8000/api/movies", updated, {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
         });
-    }
-    };
-    
+      });
+  }
+};
