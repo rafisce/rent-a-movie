@@ -35,3 +35,4 @@ export const rentalCreateReducer = (state = {}, action) => {
       return state;
   }
 };
+

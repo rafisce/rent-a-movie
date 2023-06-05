@@ -4,7 +4,13 @@ import {
   userRegisterReducer,
   userSigninReducer,
 } from "./reducers/userReducers";
-import {  movieGetReducer, movieListReducer } from "./reducers/movieReducers";
+import {
+  movieCreateReducer,
+  movieDeleteReducer,
+  movieGetReducer,
+  movieListReducer,
+  movieUpdateReducer,
+} from "./reducers/movieReducers";
 import {
   rentalCreateReducer,
   rentalListReducer,
@@ -25,7 +31,10 @@ const reducer = combineReducers({
   rentalList: rentalListReducer,
   rentalCreate: rentalCreateReducer,
   userList: userListReducer,
-  movieGet:movieGetReducer
+  movieGet: movieGetReducer,
+  movieUpdate: movieUpdateReducer,
+  movieDelete: movieDeleteReducer,
+  movieCreate:movieCreateReducer
 });
 
 const store = configureStore({
