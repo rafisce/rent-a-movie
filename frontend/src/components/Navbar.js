@@ -15,7 +15,7 @@ const Navbar = (props) => {
   const logoutHandler = () => {
     dispatch(signot());
     dispatch({ type: RENTAL_LIST_RESET });
-    handleManagerMenu()
+    handleManagerMenu();
   };
 
   const handleUserMenu = () => {
@@ -68,7 +68,9 @@ const Navbar = (props) => {
               >
                 <ul className="user">
                   <li>
-                    <Link onClick={handleUserMenu} to="/rentals">השכרות שלי</Link>
+                    <Link onClick={handleUserMenu} to="/rentals">
+                      השכרות שלי
+                    </Link>
                   </li>
                   <li>
                     <Link onClick={logoutHandler}>התנתק</Link>
@@ -94,10 +96,14 @@ const Navbar = (props) => {
               >
                 <ul className="manager">
                   <li>
-                    <Link onClick={handleManagerMenu} to="/users">משתמשים</Link>
+                    <Link onClick={handleManagerMenu} to="/users">
+                      משתמשים
+                    </Link>
                   </li>
                   <li>
-                    <Link onClick={handleManagerMenu}>סרטים</Link>
+                    <Link onClick={handleManagerMenu} to="/movies">
+                      סרטים
+                    </Link>
                   </li>
                 </ul>
               </div>
