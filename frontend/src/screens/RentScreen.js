@@ -15,8 +15,6 @@ const RentScreen = ({ props }) => {
   const { userInfo } = userSignin;
   const movieGet = useSelector((state) => state.movieGet);
   const { movie, loading, error } = movieGet;
-  const rentalCreate = useSelector((state) => state.rentalCreate)
-  const { rental } = rentalCreate
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -29,10 +27,7 @@ const RentScreen = ({ props }) => {
     if (userInfo) {
       if (movie) {
         dispatch(createRental(movieId, duration, userInfo.id, movie.title));
-        if (rental) {
-          navigate('/')
-        }
-        
+        navigate('/rentals')
       }
     } else {
       alert("אינך מחובר! אנא התחבר כדי להשכיר");

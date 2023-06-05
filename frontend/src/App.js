@@ -8,6 +8,8 @@ import UsersScreen from "./screens/UsersScreen";
 import AdminRentalsScreen from "./screens/AdminRentalsScreen";
 import AdminRoute from "./components/AdminRoute";
 import RentScreen from "./screens/RentScreen";
+import AdminMoviesScreen from "./screens/AdminMoviesScreen";
+import EditMovieScreen from "./screens/EditMovieScreen";
 
 const App = () => {
   const [query, setQuery] = useState(null);
@@ -34,23 +36,11 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomeScreen query={query} />} />
             <Route path="/rentals" element={<RentalsScreen />} />
-            <Route
-              path="/user-rentals/:id"
-              element={
-                <AdminRoute>
-                  <AdminRentalsScreen />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/users"
-              element={
-                <AdminRoute>
-                  <UsersScreen />
-                </AdminRoute>
-              }
-            />
+            <Route path="/user-rentals/:id" element={<AdminRoute><AdminRentalsScreen /></AdminRoute>}/>
+            <Route path="/users" element={<AdminRoute><UsersScreen /></AdminRoute>} />
+            <Route path="/movies" element={<AdminRoute><AdminMoviesScreen/></AdminRoute>}/>
             <Route path="/rent/:movieId" element={<RentScreen />} />
+            <Route path="/edit-movie/:id" element={<AdminRoute><EditMovieScreen/></AdminRoute>}/>
           </Routes>
         </main>
       </div>

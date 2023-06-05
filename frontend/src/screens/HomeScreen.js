@@ -2,15 +2,19 @@ import React, { useEffect } from "react";
 
 import MoviesCard from "../components/MoviesCard";
 import { useDispatch, useSelector } from "react-redux";
-import { listMovies } from "../actions/movieActions";
+import { listMovies} from "../actions/movieActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+
 
 const HomeScreen = (props) => {
   const { query } = props;
   const dispatch = useDispatch();
   const movieList = useSelector((state) => state.movieList);
   const { movies, error, loading } = movieList;
+ 
+
+    
 
   useEffect(() => {
     dispatch(listMovies({}));
@@ -18,6 +22,8 @@ const HomeScreen = (props) => {
 
   return (
     <div className="container-fluid h-100 d-inline-block">
+    
+
       {loading ? (
         <LoadingBox />
       ) : error ? (
@@ -31,11 +37,13 @@ const HomeScreen = (props) => {
                     .toLowerCase()
                     .startsWith(query ? query.toLowerCase() : null)
                 )
-                .map((movie, index) => <MoviesCard movie={movie} key={index} />)
+                .map((movie, index) =>
+                  movie.active ? <MoviesCard movie={movie} key={index} /> : null
+                )
             : movies
-            ? movies.map((movie, index) => (
-                <MoviesCard movie={movie} key={index} />
-              ))
+            ? movies.map((movie, index) =>
+                movie.active ? <MoviesCard movie={movie} key={index} /> : null
+              )
             : null}
         </div>
       )}

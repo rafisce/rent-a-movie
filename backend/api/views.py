@@ -142,5 +142,55 @@ class MovieView(APIView):
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-            
+    
+    def put(self,request,id):
+       
+        response = authenticator.authenticate(request)
+        if response is not True:
+            user,token =response
+            if(user.is_superuser):
+                movie =Movie.objects.get(id=id)
+
+                serializer = MovieSerializer(movie,data=request.data,partial=True)
+                if (serializer.is_valid(raise_exception=True)):
+                    serializer.save()
+                    return Response(status=status.HTTP_200_OK)
+                else:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)      
+        else:
+            return Response({'message':"no token is provided in the header or the header is missing"},status=status.HTTP_401_UNAUTHORIZED)
+        
+    def delete(self,request,id):
+       
+        response = authenticator.authenticate(request)
+        if response is not True:
+            user,token =response
+            if(user.is_superuser):
+                movie =Movie.objects.get(id=id)
+                movie.delete()
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)      
+        else:
+            return Response({'message':"no token is provided in the header or the header is missing"},status=status.HTTP_401_UNAUTHORIZED)
+        
+
+    def post(self,request,id):
+        response = authenticator.authenticate(request)
+        if response is not True:
+            user,token =response
+            if(user.is_superuser):
+                serializer =MovieSerializer(data=request.data)
+                if serializer.is_valid(raise_exception=True):
+                    serializer.save()
+                    return Response(status=status.HTTP_200_OK)
+                else:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)      
+        else:
+            return Response({'message':"no token is provided in the header or the header is missing"},status=status.HTTP_401_UNAUTHORIZED)
+
        

@@ -13,12 +13,13 @@ from datetime import datetime,timedelta
 
 class Movie(models.Model):
 
-    title = models.CharField(max_length=150)
-    description = models.CharField(max_length=2000)
-    rating = models.FloatField()
-    release_date = models.CharField(max_length=11)
-    popularity = models.FloatField()
-    img=models.CharField(max_length=300)
+    title = models.CharField(max_length=150,default='')
+    description = models.CharField(max_length=2000,default='')
+    rating = models.FloatField(default=0)
+    release_date = models.CharField(max_length=11,default='')
+    popularity = models.FloatField(default=0)
+    img=models.CharField(max_length=300,default='')
+    active = models.BooleanField(default=False)
     
     def __repr__(self) -> str:
         return f'<Movie {self.id}>'

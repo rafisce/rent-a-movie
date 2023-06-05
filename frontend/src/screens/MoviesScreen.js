@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { listMovies } from '../actions/movieActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { Link } from 'react-router-dom';
 
 const MoviesScreen = (props) => {
      const { query } = props;
      const dispatch = useDispatch();
      const movieList = useSelector((state) => state.movieList);
-     const { movies, error, loading } = movieList;
+  const { movies, error, loading } = movieList;
+  
 
      useEffect(() => {
        dispatch(listMovies({}));
