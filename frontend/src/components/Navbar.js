@@ -23,6 +23,7 @@ const Navbar = (props) => {
       userInfo &&
       userInfo.is_superuser &&
       document.querySelector(".manager").classList.contains("active")
+    
     ) {
       document.querySelector(".manager");
       document.querySelector(".manager").classList.toggle("active");
@@ -36,6 +37,16 @@ const Navbar = (props) => {
     }
     document.querySelector(".manager").classList.toggle("active");
   };
+  window.addEventListener(
+    "resize",
+    function (event) {
+      if (this.window.innerWidth > 768) {
+        document.querySelector(".manager").classList.remove("active");
+        document.querySelector(".user").classList.remove("active");
+      }
+    },
+    true
+  );
 
   useEffect(() => {
     if (!userInfo) {
@@ -62,10 +73,7 @@ const Navbar = (props) => {
                 {userInfo.username}
               </a>
 
-              <div
-                className="user-menu"
-                style={{ width: "fit-content", height: "fit-content" }}
-              >
+              <div className="user-menu">
                 <ul className="user">
                   <li>
                     <Link onClick={handleUserMenu} to="/rentals">
@@ -90,10 +98,7 @@ const Navbar = (props) => {
               <Link className="dropdown-toggle" onClick={handleManagerMenu}>
                 מנהל
               </Link>
-              <div
-                className="manager-menu"
-                style={{ width: "fit-content", height: "fit-content" }}
-              >
+              <div className="manager-menu">
                 <ul className="manager">
                   <li>
                     <Link onClick={handleManagerMenu} to="/users">

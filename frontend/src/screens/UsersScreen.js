@@ -21,42 +21,41 @@ const UsersScreen = () => {
   }, [dispatch, userInfo]);
   return (
     <div className="container table_">
-
-      {
-        loading ?
-          <LoadingBox /> : error ?
-            <MessageBox variant='danger'>{error}</MessageBox>
-            :
-            
-      < table className="table table-striped table-dark" dir="rtl">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">שם משתמש</th>
-          <th scope="col">אימייל </th>
-          <th scope="col">תאריך הצטרפות</th>
-          <th scope="col">הזמנות</th>
-        </tr>
-      </thead>
-      <tbody>
-        {users
-          ? users.map((user, index) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-              <td>{user.date_joined}</td>
-              <td>
-                <Link to={`/user-rentals/${user.id}`}>הזמנות</Link>
-              </td>
+      {loading ? (
+        <div className="d-flex align-items-start justify-content-center w-100 p-3">
+          <LoadingBox />
+        </div>
+      ) : error ? (
+         <div className="d-flex align-items-start justify-content-center w-100 p-3"><MessageBox variant="danger">{error}</MessageBox></div>
+      ) : (
+        <table className="table table-striped table-dark" dir="rtl">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">שם משתמש</th>
+              <th scope="col">אימייל </th>
+              <th scope="col">תאריך הצטרפות</th>
+              <th scope="col">הזמנות</th>
             </tr>
-          ))
-          : null}
-      </tbody>
-    </table>
-            }
-    </div >
-      
+          </thead>
+          <tbody>
+            {users
+              ? users.map((user, index) => (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{user.date_joined}</td>
+                    <td>
+                      <Link to={`/user-rentals/${user.id}`}>הזמנות</Link>
+                    </td>
+                  </tr>
+                ))
+              : null}
+          </tbody>
+        </table>
+      )}
+    </div>
   );
 };
 

@@ -74,9 +74,6 @@ main {
   justify-content: center;
   height: 100%;
   overflow-y: auto;
-
-  /* padding: 5rem 8rem;
-  margin-top: 103px; */
 }
 .col {
   margin: 1rem 0;
@@ -205,15 +202,14 @@ main {
   flex-direction: column;
   align-items: flex-start;
   padding: 2rem;
- *.active{
-  color: #20a020;
-}
+  *.active {
+    color: #20a020;
+  }
 
-*.inactive{
-  color:coral;
+  *.inactive {
+    color: coral;
+  }
 }
-}
-
 
 .btn {
   background-color: #6a27fb;
@@ -266,7 +262,7 @@ a.btn {
   overflow: hidden;
   position: absolute;
   border-radius: 2px;
-  transition: all 0.2s ease-in-out;
+  transition: none;
   top: 90px;
 }
 .user.active,
@@ -277,6 +273,7 @@ a.btn {
   overflow: hidden;
   position: absolute;
   border-radius: 2px;
+  transition: all 0.2s ease-in-out;
   top: 90px;
 }
 .manager.active {
@@ -287,6 +284,11 @@ a.btn {
 }
 .nb-links li {
   padding: 1rem 0;
+}
+.manager-menu,
+.user-menu {
+  width: fit-content;
+  height: fit-content;
 }
 .manager > li,
 .user > li {
@@ -404,69 +406,6 @@ select {
   background-color: #fff;
 }
 
-/* toggle switch */
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-input:checked + .slider {
-  background-color: #2196f3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
 @media screen and (max-width: 768px) {
   .manager.active,
   .nb-links li,
@@ -539,5 +478,10 @@ input:checked + .slider:before {
     margin: 0;
     background-color: rgba(69, 0, 149, 0.243);
     height: fit-content;
+  }
+  .manager-menu,
+  .user-menu {
+    width: auto;
+    margin: 0.5rem;
   }
 }
