@@ -3,7 +3,7 @@ import MessageBox from "./MessageBox";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingBox from "./LoadingBox";
 import { useNavigate } from "react-router-dom";
-import { signin } from "../actions/userActions";
+import { signin, signot } from "../actions/userActions";
 
 const SigninForm = (props) => {
   const { onSuccess } = props;
@@ -20,8 +20,13 @@ const SigninForm = (props) => {
     if (userInfo) {
       onSuccess();
       navigate("/");
+    } else if (error) {
+      setTimeout(function () {
+        dispatch(signot());
+      }, 2000);
     }
-  }, [navigate, onSuccess, userInfo]);
+    
+  }, [dispatch, error, navigate, onSuccess, userInfo]);
 
   const signinHandler = (e) => {
     document.querySelector(".validate2").checkValidity();
@@ -34,11 +39,17 @@ const SigninForm = (props) => {
       <form className="validate2">
         <div className="field">
           {loading ? (
-            <LoadingBox></LoadingBox>
+            <div className="d-flex align-items-start justify-content-center w-100 p-3">
+              <LoadingBox />
+            </div>
           ) : error ? (
-            <MessageBox variant="danger">{error}</MessageBox>
+            <div className="d-flex align-items-start justify-content-center w-100 p-3">
+                <MessageBox variant="danger">{error}</MessageBox>
+            </div>
           ) : (
-            <MessageBox variant="none">nothing</MessageBox>
+            <div className="d-flex align-items-start justify-content-center w-100 p-3">
+              <MessageBox variant="none">nothing</MessageBox>
+            </div>
           )}
           <i className="fa fa-user" aria-hidden="true"></i>
           <input

@@ -25,7 +25,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className="app-container">
-        {open ? <AcountDialog open={open} onClose={setOpen} /> : null}
+        {open ? <AcountDialog open={open} closeDialog={setOpen} /> : null}
 
         <header>
           <Navbar onQuery={onQuery} onDialog={toggle} />

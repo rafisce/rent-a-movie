@@ -6,10 +6,10 @@ import SigninForm from "./SigninForm";
 import RegisterForm from "./RegisterForm";
 
 const AcountDialog = (props) => {
-  const { onClose, open } = props;
+  const { closeDialog, open } = props;
   const [value, setValue] = useState("0");
   const handleClose = () => {
-    onClose(false);
+   closeDialog(false);
   };
 
   const handleChange = (v) => {
@@ -49,7 +49,7 @@ const AcountDialog = (props) => {
           <Box sx={{ height: "100%" }}>
             <TabPanel value="1" index={1}>
               <RegisterForm onSuccess={handleClose} />
-            </TabPanel>{" "}
+            </TabPanel>
             <TabPanel value="0" index={0}>
               <SigninForm onSuccess={handleClose} />
             </TabPanel>

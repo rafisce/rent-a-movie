@@ -52,11 +52,11 @@ const RegisterForm = ({ onSuccess }) => {
     <div className="form">
       <form className="validate">
         {loading ? (
-          <LoadingBox></LoadingBox>
+           <div className="d-flex align-items-start justify-content-center w-100 p-3"><LoadingBox/></div>
         ) : error ? (
-          <MessageBox variant="danger">{error}</MessageBox>
+         <div className="d-flex align-items-start justify-content-center w-100 p-3"><MessageBox variant="danger">{error}</MessageBox></div>
         ) : notmatch ? (
-          <MessageBox variant="danger">סיסמאות לא תואמות</MessageBox>
+           <div className="d-flex align-items-start justify-content-center w-100 p-3"><MessageBox variant="danger">סיסמאות לא תואמות</MessageBox></div>
         ) : (
           <MessageBox variant="none">nothing</MessageBox>
         )}
