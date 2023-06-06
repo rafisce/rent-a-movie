@@ -21,6 +21,7 @@ const UsersScreen = () => {
   }, [dispatch, userInfo]);
   return (
     <div className="container table_">
+<<<<<<< HEAD
       {loading ? (
         <div className="d-flex align-items-start justify-content-center w-100 p-3">
           <LoadingBox />
@@ -56,6 +57,44 @@ const UsersScreen = () => {
         </table>
       )}
     </div>
+=======
+
+      {
+        loading ?
+          <LoadingBox /> : error ?
+            <MessageBox variant='danger'>{error}</MessageBox>
+            :
+            
+      < table className="table table-striped table-dark" dir="rtl">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">שם משתמש</th>
+          <th scope="col">אימייל </th>
+          <th scope="col">תאריך הצטרפות</th>
+          <th scope="col">הזמנות</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users
+          ? users.map((user, index) => (
+            <tr key={user.id}>
+              <td>{user.id}</td>
+              <td>{user.username}</td>
+              <td>{user.email}</td>
+              <td>{user.date_joined}</td>
+              <td>
+                <Link to={`/user-rentals/${user.id}`}>הזמנות</Link>
+              </td>
+            </tr>
+          ))
+          : null}
+      </tbody>
+    </table>
+            }
+    </div >
+      
+>>>>>>> 7162c74e0a50fb62a45b44c2a4278462b3838b25
   );
 };
 

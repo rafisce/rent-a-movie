@@ -23,7 +23,6 @@ const Navbar = (props) => {
       userInfo &&
       userInfo.is_superuser &&
       document.querySelector(".manager").classList.contains("active")
-    
     ) {
       document.querySelector(".manager");
       document.querySelector(".manager").classList.toggle("active");
