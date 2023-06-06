@@ -36,16 +36,6 @@ const Navbar = (props) => {
     }
     document.querySelector(".manager").classList.toggle("active");
   };
-  window.addEventListener(
-    "resize",
-    function (event) {
-      if (this.window.innerWidth > 768) {
-        document.querySelector(".manager").classList.remove("active");
-        document.querySelector(".user").classList.remove("active");
-      }
-    },
-    true
-  );
 
   useEffect(() => {
     if (!userInfo) {
